@@ -1,0 +1,21 @@
+fastapi
+uvicorn
+structlog
+PyJWT
+streamlit>=1.26.0
+duckduckgo-search
+anthropic>=0.3.0
+trubrics>=1.4.3
+streamlit-feedback
+python-dotenv
+PyKakao
+langchain
+python-multipart
+peft
+
+# STT
+google-cloud-speech==2.21.0
+librosa
+
+# google
+google-api-python-client>=2.100.0

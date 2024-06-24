@@ -1,0 +1,44 @@
+# Use the official Python image as a parent image
+FROM python:3.8.3-slim
+
+# Set the timezone to Asia/Seoul
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# Upgrade pip
+RUN pip install --upgrade pip
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Conda 패키지 설치
+# RUN pip install cartopy
+
+# SSL Certificates
+# COPY certs/ /etc/nginx/certs/
+
+#Git install
+RUN apt-get update && apt-get install -y git
+#imagebind
+# RUN apt-get update && apt-get install -y libgeos-dev
+# RUN apt-get update && apt-get install -y gcc libgeos-dev && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Copy the requirements file into the container at /app
+COPY requirements.txt requirements.txt
+
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of your app's source code from your host to your image filesystem.
+COPY toolva /toolva
+RUN cd /toolva && pip install -e .
+
+COPY app/ .
+
+ENV GOOGLE_APPLICATION_CREDENTIALS /app/gildong-99542d83863c.json
+# Make port 5040 available to the world outside this container
+EXPOSE 5040
+# EXPOSE 5041
+
+# Run the command to start uWSGI
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5040"]
+# CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5041"]
