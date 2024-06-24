@@ -21,3 +21,4 @@ toolva/models/*/
 nohup.out
 IB/.checkpoints/
 app/uploads/images/
+app/routers/STT/google-cloud-sdk/
